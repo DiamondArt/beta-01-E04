@@ -19,7 +19,7 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
       .equal(arr.length - 1),
 
     test(`${method} callback third argument should be the array`)
-      .call(() => (arr => (exports[method]((a, b, i) => arr = i, arr), arr))())
+      .call(() => (_a => (exports[method]((a, b, i) => _a = i, arr), arr))())
       .equal(arr),
   ]
 
