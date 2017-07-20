@@ -9,18 +9,18 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
   const testCurryMethod = (name, values) =>
     testMethod(name, values, moveLastFirst)
 
-  const testCallback = (method, testArr) => [
-    test(`${method.name} callback first argument should be the value`)
-      .call(() => (v => (method(value => v = value, testArr), v))())
-      .equal(testArr[testArr.length - 1]),
+  const testCallback = (method, arr) => [
+    test(`${method} callback first argument should be the value`)
+      .call(() => (v => (exports[method](value => v = value, arr), v))())
+      .equal(arr[arr.length - 1]),
 
-    test(`${method.name} callback second argument should be the index`)
-      .call(() => (_i => (method((a, i) => _i = i, testArr), _i))())
-      .equal(testArr.length - 1),
+    test(`${method} callback second argument should be the index`)
+      .call(() => (_i => (exports[method]((a, i) => _i = i, arr), _i))())
+      .equal(arr.length - 1),
 
-    test(`${method.name} callback third argument should be the array`)
-      .call(() => (arr => (method((a, b, i) => arr = i, testArr), arr))())
-      .equal(testArr),
+    test(`${method} callback third argument should be the array`)
+      .call(() => (arr => (exports[method]((a, b, i) => arr = i, arr), arr))())
+      .equal(arr),
   ]
 
   const largeArray = nArray(10000)
@@ -109,7 +109,7 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
       Array,
     ].map(a => [a])),
 
-    test.fn('each', testCb(exports.each)),
+    test.fn('each', testCb('each')),
     //testCurryMethod('forEach', [ [ forEachTester, testArrays ] ]),
     /*
     testCurryMethod('map', [
