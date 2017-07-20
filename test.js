@@ -27,7 +27,7 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
   const methodTestArrays = [
     [ 'salut' ],
     [ 1, 2, 3 ],
-    [ {}, Function, [] ],
+    [ {}, undefined, Function, [] ],
     largeArray,
   ]
 
@@ -53,22 +53,6 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
     .map((arr, i) => [ arr, 'u' ])
     .concat([ [ undefined, nArray(5) ] ])
     .concat(nArray(5).map(n => [ n, nArray(5) ]))
-
-  let totalCalls = 0
-  const forEachTester = (value, index, arr) => {
-    if (value !== testArrays[index]) {
-      throw Error(`Callback expected currentValue of ${
-        stringify(testArrays[index])
-      } but was ${stringify(value)}`)
-    }
-    if (typeof index !== 'number') {
-      throw Error(`Callback 2nd argument should be the index`)
-    }
-    if (arr !== testArrays) {
-      throw Error(`Callback 3rd argument should be the given array`)
-    }
-    totalCalls++
-  }
 
   return [
     describe('cheating', [
@@ -110,6 +94,14 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
     ].map(a => [a])),
 
     test.fn('each', testCb('each')),
+    test.fn('filter', testCb('filter')),
+    testCurryMethod('filter', [
+      Boolean,
+      Math.floor,
+      Array.isArray,
+      str => typeof str === 'string',
+      n => n > 5 && n < 150,
+    ].map(f => [ f, testArrays ])),
     //testCurryMethod('forEach', [ [ forEachTester, testArrays ] ]),
     /*
     testCurryMethod('map', [
