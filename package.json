@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "update": "git checkout HEAD package.json test.js readme.md bonus.js && git pull base master",
-    "postinstall": "git remote add base https://thot.space/git/javascript/S01E04.git",
+    "update": "git remote remove base; git remote add base https://thot.space/git/javascript/S01E04.git && git checkout HEAD package.json test.js readme.md bonus.js && git pull base master && npm install",
     "debug": "node --use-strict --harmony-tailcalls node_modules/thot-tester/lib/tester",
     "test": "node --use-strict --harmony-tailcalls node_modules/thot-tester/bin/tester"
   },
@@ -13,6 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "thot-tester": "^1.1.0"
+    "thot-tester": "^1.1.1"
   }
 }

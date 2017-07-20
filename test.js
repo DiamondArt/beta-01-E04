@@ -6,8 +6,8 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
   const testMethod = (name, values, shift=pass) => test.against(name,
     (...args) => Array.prototype[name].call(...shift(args)), values)
 
-  const testCurryMethod = (name, values) =>
-    testMethod(name, values, moveLastFirst)
+  const testCurryMethod = (name, values) => test.against(name, (...args) =>
+    Array.prototype[name].call(...moveLastFirst(args)), values, 'deepEqual')
 
   const testCallback = (method, arr) => [
     test(`${method} callback first argument should be the value`)
@@ -102,6 +102,24 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
       str => typeof str === 'string',
       n => n > 5 && n < 150,
     ].map(f => [ f, testArrays ])),
+    test.fn('map', testCb('map')),
+    testCurryMethod('map', [
+      Boolean,
+      Math.floor,
+      Array.isArray,
+      str => typeof str === 'string',
+      n => n > 5 && n < 150,
+    ].map(f => [ f, testArrays ])),
+    test.fn('reduce', testCb('reduce')),
+    testCurryMethod('reduce', [
+      Boolean,
+      Math.floor,
+      Array.isArray,
+      str => typeof str === 'string',
+      n => n > 5 && n < 150,
+    ].map(f => [ f, testArrays ])),
+
+
     //testCurryMethod('forEach', [ [ forEachTester, testArrays ] ]),
     /*
     testCurryMethod('map', [
