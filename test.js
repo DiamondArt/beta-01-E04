@@ -109,7 +109,7 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
       Array,
     ].map(a => [a])),
 
-    test.fn('each', testCb(exports.each))),
+    test.fn('each', testCb(exports.each)),
     //testCurryMethod('forEach', [ [ forEachTester, testArrays ] ]),
     /*
     testCurryMethod('map', [
