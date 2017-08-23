@@ -93,6 +93,27 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
       Array,
     ].map(a => [a])),
 
+    test.against('argsToArray3', function () { return Array.from(arguments) }, [
+      [ 1, 2, 3 ],
+      [ 'a', 'b', 'c' ],
+      [ 'a', 2, 'c' ],
+      [],
+    ], 'deepEqual'),
+
+    test.against('first', a => a && a[0], [
+      [ [ 1, 2, 3, 5, 9, 'pouet' ] ],
+      [ [ 'a', 'b', 'c' ] ],
+      [ [ 'a' ] ],
+      [ [] ],
+    ]),
+
+    test.against('last', a => a && a[a.length - 1], [
+      [ [ 1, 2, 3, 5, 9, 'pouet' ] ],
+      [ [ 'a', 'b', 'c' ] ],
+      [ [ 'a' ] ],
+      [ [] ],
+    ]),
+
     test.fn('each', testCb('each')),
     test.fn('filter', testCb('filter')),
     testCurryMethod('filter', [
@@ -119,6 +140,23 @@ module.exports = ({ test, describe, exports, code, $, stringify }) => {
       n => n > 5 && n < 150,
     ].map(f => [ f, testArrays ])),
 
+    // join
+    // split
+
+    /*
+    test('Users should be exported')
+      .value(exports.users)
+      .isA(Array, `module.exports.users must be an array`),
+
+    test('Users should have proper data structure')
+      .value(exports.users)
+      .map(arr => arr.filter(u => typeof u.firstname === 'string'
+        && typeof u.lastname === 'string'
+        && typeof u.age === 'number'
+        && /^[0-9]+$/.test(u.phone)
+        && /^.+@.+$/.test(u.mail)
+        && /^@.+#[0-9]+$/.test(u.discord)).length === arr.length)
+      .equal(true, `module.exports.users format invalid`),
 
     //testCurryMethod('forEach', [ [ forEachTester, testArrays ] ]),
     /*
